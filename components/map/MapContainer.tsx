@@ -11,6 +11,7 @@ import type { FillLayerSpecification, LineLayerSpecification } from 'react-map-g
 import MapControls from './MapControls';
 import MapPopup from './MapPopup';
 import SearchBar from '../ui/SearchBar';
+import StyleSwitcher from './StyleSwitcher';
 
 interface MapContainerProps {
   selectedMeasure?: ICEMeasure;
@@ -31,6 +32,7 @@ export default function MapContainer({
   const [selectedTract, setSelectedTract] = useState<SelectedTract | null>(null);
   const [cursor, setCursor] = useState<string>('');
   const [hoveredFeatureId, setHoveredFeatureId] = useState<string | null>(null);
+  const [mapStyle, setMapStyle] = useState(MAPBOX_CONFIG.style);
 
   // Handle map hover
   const handleHover = useCallback((event: MapLayerMouseEvent) => {
@@ -184,7 +186,7 @@ export default function MapContainer({
         ref={mapRef}
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
-        mapStyle={MAPBOX_CONFIG.style}
+        mapStyle={mapStyle}
         cursor={cursor}
         interactiveLayerIds={[MAP_LAYERS.tractFill]}
         onMouseMove={handleHover}
@@ -275,6 +277,9 @@ export default function MapContainer({
 
         {/* Navigation Controls */}
         <NavigationControl position="top-right" />
+        
+        {/* Style Switcher */}
+        <StyleSwitcher onStyleChange={setMapStyle} />
 
         {/* Custom Controls */}
         <MapControls
