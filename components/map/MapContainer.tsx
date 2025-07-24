@@ -2,8 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import Map from 'react-map-gl/maplibre';
-import { Source, Layer, Popup, NavigationControl, GeolocateControl, MapLayerMouseEvent, LngLatBoundsLike } from 'react-map-gl/maplibre';
-import maplibregl from 'maplibre-gl';
+import { Source, Layer, Popup, NavigationControl, MapLayerMouseEvent, LngLatBoundsLike } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { MAPBOX_CONFIG, MAP_LAYERS, ICE_COLOR_SCALE } from '@/lib/mapbox-config';
 import { ICEMeasure, MapViewState, SelectedTract, CensusTractProperties } from '@/lib/types';
@@ -185,7 +184,6 @@ export default function MapContainer({
         ref={mapRef}
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
-        mapLib={maplibregl}
         mapStyle={MAPBOX_CONFIG.style}
         cursor={cursor}
         interactiveLayerIds={[MAP_LAYERS.tractFill]}
@@ -277,7 +275,6 @@ export default function MapContainer({
 
         {/* Navigation Controls */}
         <NavigationControl position="top-right" />
-        <GeolocateControl position="top-right" />
 
         {/* Custom Controls */}
         <MapControls

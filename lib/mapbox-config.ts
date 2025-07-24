@@ -1,6 +1,8 @@
+import { lightStyle } from './map-styles';
+
 export const MAPBOX_CONFIG = {
   accessToken: process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '',
-  style: 'mapbox://styles/mapbox/light-v11',
+  style: lightStyle,
   defaultView: {
     longitude: -87.6298,
     latitude: 41.8781,
