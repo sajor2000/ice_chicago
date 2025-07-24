@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare-mapbox": "node scripts/prepare-for-mapbox.js"
+    "prepare-mapbox": "node scripts/prepare-for-mapbox.js",
+    "generate-maps": "echo 'Generating static maps...' && python3 scripts/generate_static_maps_simple.py"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.1.0",
