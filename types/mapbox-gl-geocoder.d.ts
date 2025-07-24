@@ -1,9 +1,9 @@
-import maplibregl from 'maplibre-gl';
+import mapboxgl from 'mapbox-gl';
 
 declare module '@mapbox/mapbox-gl-geocoder' {
   export interface MapboxGeocoderOptions {
     accessToken: string;
-    mapboxgl: typeof maplibregl;
+    mapboxgl: typeof mapboxgl;
     [key: string]: any;
   }
 

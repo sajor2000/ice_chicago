@@ -5,7 +5,7 @@ import { Map } from 'lucide-react';
 import { standardStyle, positronStyle, tonerStyle } from '@/lib/map-styles-v2';
 
 interface StyleSwitcherProps {
-  onStyleChange: (style: any) => void;
+  onStyleChange: (style: object) => void;
 }
 
 const styles = [

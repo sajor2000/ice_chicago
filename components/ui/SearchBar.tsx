@@ -6,9 +6,9 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import { MAPBOX_CONFIG } from '@/lib/mapbox-config';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import maplibregl from 'maplibre-gl';
+import mapboxgl from 'mapbox-gl';
 
-import { MapRef } from 'react-map-gl/maplibre';
+import { MapRef } from 'react-map-gl/mapbox';
 
 interface SearchBarProps {
   map: MapRef | null;
@@ -24,7 +24,7 @@ export default function SearchBar({ map }: SearchBarProps) {
     // Create geocoder instance
     const geocoder = new MapboxGeocoder({
       accessToken: MAPBOX_CONFIG.accessToken,
-      mapboxgl: maplibregl,
+      mapboxgl: mapboxgl,
       placeholder: 'Search for an address in Chicago...',
       bbox: [-87.9401, 41.6445, -87.5241, 42.0230], // Chicago bounds
       proximity: {

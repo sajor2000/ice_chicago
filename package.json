@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare-mapbox": "node scripts/prepare-for-mapbox.js"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.1.0",

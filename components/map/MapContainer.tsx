@@ -42,39 +42,40 @@ export default function MapContainer({
     const features = event.features;
     if (features && features.length > 0) {
       const feature = features[0];
-      setCursor('pointer');
+      const featureProps = feature.properties;
       
-      // Update hover state for smooth transitions
-      if (hoveredFeatureId && hoveredFeatureId !== feature.properties.GEOID) {
+      if (!featureProps) return;
+
+      if (hoveredFeatureId !== null) {
         map.setFeatureState(
           { source: MAP_LAYERS.censusTracts, id: hoveredFeatureId },
           { hover: false }
         );
       }
       
+      // Set feature state for current hovered feature
       map.setFeatureState(
-        { source: MAP_LAYERS.censusTracts, id: feature.properties.GEOID },
+        { source: MAP_LAYERS.censusTracts, id: featureProps.GEOID },
         { hover: true }
       );
       
-      setHoveredFeatureId(feature.properties.GEOID);
+      setHoveredFeatureId(featureProps.GEOID);
       
-      if (feature.properties) {
-        setHoveredTract({
-          properties: feature.properties as CensusTractProperties,
-          coordinates: [event.lngLat.lng, event.lngLat.lat],
-        });
-      }
+      setHoveredTract({
+        properties: featureProps as CensusTractProperties,
+        coordinates: [event.lngLat.lng, event.lngLat.lat],
+      });
+      setCursor('pointer');
     } else {
-      setCursor('');
-      if (hoveredFeatureId) {
+      if (hoveredFeatureId !== null) {
         map.setFeatureState(
           { source: MAP_LAYERS.censusTracts, id: hoveredFeatureId },
           { hover: false }
         );
         setHoveredFeatureId(null);
+        setHoveredTract(null);
       }
-      setHoveredTract(null);
+      setCursor('');
     }
   }, [hoveredFeatureId]);
 
@@ -83,17 +84,20 @@ export default function MapContainer({
     const features = event.features;
     if (features && features.length > 0) {
       const feature = features[0];
-      if (feature.properties) {
-        const tract = feature.properties as CensusTractProperties;
+      const featureProps = feature.properties;
+      
+      if (featureProps) {
+        const tract = featureProps as CensusTractProperties;
         setSelectedTract({
           properties: tract,
           coordinates: [event.lngLat.lng, event.lngLat.lat],
         });
-        // Notify parent component
         if (onTractSelect) {
           onTractSelect(tract);
         }
       }
+    } else {
+      setSelectedTract(null);
     }
   }, [onTractSelect]);
 
