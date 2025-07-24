@@ -1,0 +1,80 @@
+{
+  "title": "Chicago Health Equity Analysis - ICE Visualization Data",
+  "description": "Census tract and community area data with Index of Concentration at the Extremes (ICE) calculations for racial and economic segregation analysis",
+  "version": "1.0.0",
+  "last_updated": "2025-07-21",
+  "data_sources": {
+    "census_data": {
+      "source": "U.S. Census Bureau",
+      "dataset": "American Community Survey (ACS) 5-Year Estimates",
+      "year": "2022",
+      "release_date": "2023-12-07"
+    },
+    "geographic_boundaries": {
+      "source": "U.S. Census Bureau TIGER/Line Shapefiles",
+      "year": "2022",
+      "spatial_reference": "EPSG:4326 (WGS84)"
+    }
+  },
+  "ice_methodology": {
+    "formula": "ICE = (Advantaged - Disadvantaged) / Total",
+    "measures": {
+      "ice_race": {
+        "name": "Racial Segregation",
+        "advantaged": "White non-Hispanic population",
+        "disadvantaged": "Black non-Hispanic population",
+        "denominator": "Total population",
+        "range": "-1 (all Black) to +1 (all White)"
+      },
+      "ice_income": {
+        "name": "Economic Segregation",
+        "advantaged": "Households with income ≥$100,000",
+        "disadvantaged": "Households with income <$25,000",
+        "denominator": "Total households",
+        "range": "-1 (all low income) to +1 (all high income)"
+      },
+      "ice_race_income": {
+        "name": "Racialized Economic Segregation",
+        "advantaged": "White non-Hispanic households ≥$100,000",
+        "disadvantaged": "Black non-Hispanic households <$25,000",
+        "denominator": "Total households with known race/income",
+        "range": "-1 to +1 (combined disadvantage to advantage)"
+      }
+    }
+  },
+  "data_quality": {
+    "reliability_threshold": {
+      "cv_reliable": 0.15,
+      "cv_flagged": 0.30,
+      "description": "Coefficient of Variation (CV) thresholds for data reliability"
+    },
+    "extreme_values": {
+      "deprivation_threshold": -0.4,
+      "privilege_threshold": 0.4,
+      "description": "ICE values beyond these thresholds indicate extreme segregation"
+    }
+  },
+  "files": {
+    "chicago-tracts-ice.geojson": {
+      "description": "866 census tracts with ICE calculations",
+      "features": 1332,
+      "note": "Includes tracts from surrounding areas for complete coverage"
+    },
+    "chicago-community-areas-ice.geojson": {
+      "description": "77 community areas with aggregated ICE values",
+      "features": 77
+    },
+    "ice-summary-stats.json": {
+      "description": "Summary statistics for all ICE measures"
+    }
+  },
+  "citation": {
+    "recommended": "Urban Health Equity Lab. (2025). Chicago Racial Segregation Analysis - ICE Visualization. Available at: https://chicago-ice-viz.vercel.app",
+    "methodology": "Krieger, N., et al. (2016). Public health monitoring of privilege and deprivation with the Index of Concentration at the Extremes. Am J Public Health, 106(2), 256-263."
+  },
+  "license": "MIT",
+  "contact": {
+    "organization": "Urban Health Equity Lab",
+    "email": "contact@example.org"
+  }
+}

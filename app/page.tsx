@@ -1,103 +1,103 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import { ICEMeasure, CensusTractProperties } from '@/lib/types';
+import MetricsPanel from '@/components/panels/MetricsPanel';
+import DetailsPanel from '@/components/panels/DetailsPanel';
+import Legend from '@/components/ui/Legend';
+import { Menu } from 'lucide-react';
+
+// Dynamic import for the map component to avoid SSR issues
+const MapContainer = dynamic(
+  () => import('@/components/map/MapContainer'),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading Chicago ICE Visualization...</p>
+        </div>
+      </div>
+    )
+  }
+);
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [selectedMeasure, setSelectedMeasure] = useState<ICEMeasure>('ice_race');
+  const [selectedTract, setSelectedTract] = useState<CensusTractProperties | null>(null);
+  const [showPriorityAreas, setShowPriorityAreas] = useState(false);
+  const [showCommunityAreas, setShowCommunityAreas] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [stats, setStats] = useState({
+    totalTracts: 866,
+    priorityTracts: 330,
+    avgValue: 0.113,
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  // Load summary statistics
+  useEffect(() => {
+    fetch('/data/ice-summary-stats.json')
+      .then(res => res.json())
+      .then(data => {
+        if (data[selectedMeasure]) {
+          setStats({
+            totalTracts: data.total_tracts || 866,
+            priorityTracts: data.priority_areas[selectedMeasure.replace('ice_', '')] || 0,
+            avgValue: data[selectedMeasure].mean || 0,
+          });
+        }
+      })
+      .catch(console.error);
+  }, [selectedMeasure]);
+
+  return (
+    <main className="relative w-full h-screen overflow-hidden bg-gray-50">
+      {/* Map Container - Full Screen */}
+      <MapContainer 
+        selectedMeasure={selectedMeasure}
+        showPriorityAreas={showPriorityAreas}
+        showCommunityAreas={showCommunityAreas}
+        onTractSelect={setSelectedTract}
+      />
+      
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setShowMobileMenu(!showMobileMenu)}
+        className="lg:hidden absolute top-6 left-6 z-20 glass-card p-3 rounded-lg"
+      >
+        <Menu className="w-6 h-6 text-gray-700" />
+      </button>
+
+      {/* Metrics Panel - Left Side (Hidden on mobile unless menu open) */}
+      <div className={`${showMobileMenu ? 'block' : 'hidden'} lg:block`}>
+        <MetricsPanel
+          selectedMeasure={selectedMeasure}
+          onMeasureChange={setSelectedMeasure}
+          stats={stats}
+        />
+      </div>
+
+      {/* Details Panel - Right Side (Full width on mobile) */}
+      <div className={`${selectedTract ? 'block' : 'hidden'}`}>
+        <DetailsPanel
+          tract={selectedTract}
+          measure={selectedMeasure}
+          onClose={() => setSelectedTract(null)}
+        />
+      </div>
+
+      {/* Legend - Bottom Left (Adjusted for mobile) */}
+      <div className="block">
+        <Legend
+          showPriorityAreas={showPriorityAreas}
+          onTogglePriority={setShowPriorityAreas}
+          showCommunityAreas={showCommunityAreas}
+          onToggleCommunityAreas={setShowCommunityAreas}
+          selectedMeasure={selectedMeasure}
+        />
+      </div>
+    </main>
   );
 }
