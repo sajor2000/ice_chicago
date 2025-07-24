@@ -1,6 +1,9 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_APP_URL": "$VERCEL_URL"
+  },
   "framework": "nextjs",
   "installCommand": "npm install",
   "regions": ["iad1"],
