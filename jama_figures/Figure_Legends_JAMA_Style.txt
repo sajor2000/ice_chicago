@@ -1,0 +1,13 @@
+FIGURE LEGENDS
+
+Figure 1. Geographic Distribution of Index of Concentration at the Extremes (ICE) Values Across Chicago Census Tracts
+The maps display ICE values for (A) racial segregation (White non-Hispanic − Black non-Hispanic residents / total population), (B) economic segregation (high-income − low-income households / total households), and (C) racialized economic segregation (White high-income − Black low-income households / total households with race and income data) among 1,332 census tracts in Chicago. ICE values range from −1 (extreme deprivation) to 1 (extreme privilege), with 0 indicating equal representation. High income was defined as annual household income of $100,000 or more; low income, less than $25,000. Data are from the US Census Bureau American Community Survey 5-year estimates, 2018-2022.
+
+Figure 2. Distribution of Index of Concentration at the Extremes (ICE) Values by Measure Type
+(A) Box plots showing the distribution of ICE values for racial, economic, and racialized economic segregation measures. Boxes represent interquartile ranges, with median (line), mean (diamond), and outliers (points) indicated. The dashed red line at −0.4 indicates the threshold for priority areas (extreme deprivation). (B) Density plots showing the overlapping distributions of ICE values across the 3 measures. Data represent 1,328 census tracts with complete information.
+
+Figure 3. Calculation Method for the Index of Concentration at the Extremes (ICE)
+Schematic representation of ICE formulas for each measure type and interpretation scale. ICE quantifies the concentration of privilege and deprivation within geographic units by calculating the difference between extreme groups divided by the total population. Values approaching −1 indicate areas with concentrated deprivation (eg, predominantly Black and/or low-income residents), while values approaching 1 indicate concentrated privilege (eg, predominantly White and/or high-income residents). The priority threshold of −0.4 identifies areas of extreme deprivation requiring targeted intervention. NH indicates non-Hispanic; HH, households.
+
+Table 1. Summary Statistics for Index of Concentration at the Extremes Measures Among Chicago Census Tracts (N = 1,332)
+The table presents descriptive statistics for 3 ICE measures calculated from US Census Bureau American Community Survey 5-year estimates (2018-2022). Priority areas are defined as census tracts with ICE values less than −0.4, indicating extreme deprivation requiring targeted intervention.
